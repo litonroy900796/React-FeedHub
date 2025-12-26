@@ -7,13 +7,15 @@ import RegistrationPage from "./pages/RegistrationPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import PrivateRoutes from "./router/PrivateRoutes";
 
 function App() {
   return (
     <div className="">
-      <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/" element={<HomePage />} />
+        </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/me" element={<ProfilePage />} />
         <Route path="/register" element={<RegistrationPage />} />
