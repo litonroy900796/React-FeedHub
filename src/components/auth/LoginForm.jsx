@@ -3,6 +3,7 @@ import Field from "../common/Field";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context";
+import axios from "axios";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -11,12 +12,33 @@ function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
-  const submitForm = (user) => {
-    console.log(user);
-    setAuth({ user });
-    navigate("/");
+  const submitForm = async (user) => {
+    // api call and response set
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_SERVER_BASE_URL}/auth/login`,
+        user
+      );
+      if (response.status === 200) {
+        const { user, token } = response.data;
+        if (token) {
+          const authToken = token?.token;
+          const refreshToken = token?.refreshToken;
+
+          setAuth({ user, authToken, refreshToken });
+          navigate("/");
+        }
+      }
+    } catch (error) {
+      setError("root.random", {
+        type: "random",
+        message: `User with email ${user.email} is not found`,
+      });
+      console.error(error.response?.data || error.message);
+    }
   };
   return (
     <div>
@@ -63,6 +85,9 @@ function LoginForm() {
           </button>
         </Field>
       </form>
+      <p className="py-2 text-red-500 text-base font-semibold">
+        {errors?.root?.random?.message}
+      </p>
     </div>
   );
 }
