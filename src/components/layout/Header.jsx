@@ -1,12 +1,14 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, Links, NavLink } from "react-router-dom";
 import Logo from "../../assets/images/logo.png";
 import NavigationIcon from "../../assets/icons/notification.svg";
 import HomeIcon from "../../assets/icons/home.svg";
 import LogOutIcon from "../../assets/icons/logout.svg";
 import AvaterIcon from "../../assets/images/avatars/avater.png";
+import { useAuth } from "../../hooks/useAuth";
 
 function Header() {
+  const { auth } = useAuth();
   return (
     <nav className="sticky top-0 z-50 border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
       <div className="container flex flex-col items-center justify-between gap-6 sm:flex-row">
@@ -32,7 +34,13 @@ function Header() {
           </button>
 
           <button className="flex-center !ml-8 gap-3">
-            <span className="text-lg font-medium lg:text-xl">Liton</span>
+            <Link to={"/me"}>
+              {" "}
+              <span className="text-lg font-medium lg:text-xl">
+                {auth.user.firstName}
+              </span>
+            </Link>
+
             <img
               className="max-h-[32px] max-w-[32px] lg:max-h-[44px] lg:max-w-[44px]"
               src={AvaterIcon}
