@@ -1,45 +1,45 @@
 import React, { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { useAuth } from "../hooks/useAuth";
+import { useProfile } from "../hooks/useProfile";
+import { actions } from "../actions";
 
 function ProfilePage() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [user, setUser] = useState(null);
-  const [post, setPost] = useState([]);
+  const { state, dispatch } = useProfile();
   const { auth } = useAuth();
-  console.log(user, post);
-  console.log("error", error);
+  console.log("state", state);
 
   const { api } = useAxios();
   useEffect(() => {
-    setLoading(true);
+    dispatch({ type: actions.profile.DATA_FETCHING });
 
     const fetchProfile = async () => {
       try {
         const response = await api.get(
           `${import.meta.env.VITE_SERVER_BASE_URL}/profile/${auth?.user?.id}`
         );
-        setUser(response?.data?.user);
-        setPost(response?.data?.posts);
+        dispatch({
+          type: actions.profile.DATA_FETCHED,
+          data: response?.data,
+        });
       } catch (error) {
-        console.error(error);
-        setError(error);
-      } finally {
-        setLoading(false);
+        dispatch({
+          type: actions.profile.DATA_FETCH_ERROR,
+          error: error.message,
+        });
       }
     };
 
     fetchProfile();
-  }, [api, auth]);
+  }, [api, auth?.user?.id, dispatch]);
 
-  if (loading) {
+  if (state?.loading) {
     return <div> Fetching your Profile data...</div>;
   }
   return (
     <div>
       <div>
-        Welcome, {user?.firstName} {user?.lastName}
+        Welcome, {state?.user?.firstName} {state?.user?.lastName}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import Header from "../components/layout/Header";
 import { AuthContext } from "../context";
 import { Outlet, Navigate } from "react-router-dom";
+import ProfileProvider from "../providers/ProfileProvider";
 
 const PrivateRoutes = () => {
   const { auth } = useContext(AuthContext);
@@ -9,14 +10,16 @@ const PrivateRoutes = () => {
 
   return (
     <>
-      {auth?.user ? (
+      {auth?.authToken ? (
         <>
-          <Header />
-          <main className="">
-            <div className="container mx-auto py-8">
-              <Outlet />
-            </div>
-          </main>
+          <ProfileProvider>
+            <Header />
+            <main className="">
+              <div className="container mx-auto py-8">
+                <Outlet />
+              </div>
+            </main>
+          </ProfileProvider>
         </>
       ) : (
         <Navigate to="/login" />
