@@ -6,7 +6,7 @@ import { actions } from "../../actions";
 import useAxios from "../../hooks/useAxios";
 const ProfileInfo = () => {
   const { state, dispatch } = useProfile();
-  const [bio, setBio] = useState(state.user.bio);
+  const [bio, setBio] = useState(state?.user?.bio);
   const [isEdit, setIsEdit] = useState(false);
   const { api } = useAxios();
   const HandleBio = async () => {
@@ -33,7 +33,7 @@ const ProfileInfo = () => {
   };
   return (
     <div className="flex flex-col items-center py-8 text-center">
-      {state.error && (
+      {state?.error && (
         <p className="py-2 text-base text-red-500">{state.error}</p>
       )}
       {/* Profile Image */}
@@ -42,9 +42,9 @@ const ProfileInfo = () => {
       {/* Name & Email */}
       <div>
         <h3 className="text-2xl font-semibold text-white lg:text-[28px]">
-          {state.user.firstName} {state.user.lastName}
+          {state?.user?.firstName} {state?.user?.lastName}
         </h3>
-        <p className="leading-[231%] lg:text-lg">{state.user.email}</p>
+        <p className="leading-[231%] lg:text-lg">{state?.user?.email}</p>
       </div>
 
       {/* Bio */}
@@ -63,7 +63,7 @@ const ProfileInfo = () => {
           </>
         ) : (
           <p className="leading-[188%] text-gray-400 lg:text-lg">
-            {state.user.bio}
+            {state?.user?.bio}
           </p>
         )}
         {isEdit ? (

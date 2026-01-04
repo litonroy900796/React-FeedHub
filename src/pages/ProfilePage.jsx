@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import useAxios from "../hooks/useAxios";
 import { useAuth } from "../hooks/useAuth";
 import { useProfile } from "../hooks/useProfile";
 import { actions } from "../actions";
 import ProfileInfo from "../components/profile/ProfileInfo";
-import Post from "../components/profile/Post";
+
+import MyPosts from "../components/profile/MyPosts";
 
 function ProfilePage() {
   const { state, dispatch } = useProfile();
@@ -42,11 +43,7 @@ function ProfilePage() {
     <main className="mx-auto max-w-[1020px] py-8">
       <div className="container">
         <ProfileInfo />
-
-        <h4 className="mt-6 text-xl lg:mt-8 lg:text-2xl">Your Posts</h4>
-
-        <Post />
-        <Post />
+        <MyPosts />
       </div>
     </main>
   );
