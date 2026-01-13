@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import ThreeDotsIcon from "../../assets/icons/3dots.svg";
 import DeleteIcon from "../../assets/icons/delete.svg";
 import EditIcon from "../../assets/icons/edit.svg";
@@ -7,7 +7,22 @@ import { useAvatar } from "../../hooks/useAvatar";
 import { getDifferentDate } from "../../utils/GetDifferentDate";
 
 function PostHeader({ post }) {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { avatarURL } = useAvatar(post);
+  const menuRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <header className="flex items-center justify-between gap-4">
       <div className="flex items-center gap-3">
@@ -28,20 +43,22 @@ function PostHeader({ post }) {
       </div>
 
       {/* Action Menu */}
-      <div className="relative">
-        <button>
+      <div ref={menuRef} className="relative">
+        <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
           <img src={ThreeDotsIcon} alt="menu" />
         </button>
-        <div className="action-modal-container">
-          <button className="action-menu-item hover:text-lwsGreen">
-            <img src={EditIcon} alt="Edit" />
-            Edit
-          </button>
-          <button className="action-menu-item hover:text-red-500">
-            <img src={DeleteIcon} alt="Delete" />
-            Delete
-          </button>
-        </div>
+        {isMenuOpen && (
+          <div className="action-modal-container">
+            <button className="action-menu-item hover:text-lwsGreen">
+              <img src={EditIcon} alt="Edit" />
+              Edit
+            </button>
+            <button className="action-menu-item hover:text-red-500">
+              <img src={DeleteIcon} alt="Delete" />
+              Delete
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
