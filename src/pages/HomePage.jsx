@@ -32,6 +32,8 @@ function HomePage() {
 
     fetchPost();
   }, [dispatch, api]);
+
+  if (state.loading) return <div>Loading....</div>;
   return <div>{<PostList posts={state.posts} />}</div>;
 }
 

@@ -36,7 +36,7 @@ function LoginPage() {
                   Don’t have account?{" "}
                   <NavLink
                     className="text-white transition-all hover:text-lwsGreen hover:underline"
-                    to="/registration"
+                    to="/register"
                   >
                     Create New
                   </NavLink>
