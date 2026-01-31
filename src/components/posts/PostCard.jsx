@@ -12,7 +12,7 @@ function PostCard({ post }) {
       {/* Body */}
       <PostContent poster={post?.image} content={post?.content} />
       {/* Actions */}
-      <PostAction postId={post?.id} commentCount={post?.comments?.length} />
+      <PostAction post={post} commentCount={post?.comments?.length} />
       {/* Comments */}
       <PostCommentList post={post} />
     </article>
