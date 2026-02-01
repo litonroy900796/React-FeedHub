@@ -1,6 +1,8 @@
 import React from "react";
 
 function PostContent({ poster, content }) {
+  console.log("poster", poster);
+
   return (
     <div className="border-b border-[#3F3F3F] py-4 lg:py-5 lg:text-xl">
       <p className="mb-4">{content ?? "No Content Available"}</p>

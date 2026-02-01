@@ -3,6 +3,7 @@ import { initialState, postReducer } from "../reducers/PostReducer";
 import useAxios from "../hooks/useAxios";
 import { actions } from "../actions";
 import PostList from "../components/posts/PostList";
+import NewPost from "../components/posts/NewPost";
 
 function HomePage() {
   const [state, dispatch] = useReducer(postReducer, initialState);
@@ -34,7 +35,12 @@ function HomePage() {
   }, [dispatch, api]);
 
   if (state.loading) return <div>Loading....</div>;
-  return <div>{<PostList posts={state.posts} />}</div>;
+  return (
+    <div>
+      <NewPost />
+      {<PostList posts={state.posts} />}
+    </div>
+  );
 }
 
 export default HomePage;

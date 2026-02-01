@@ -5,6 +5,7 @@ import PostCommentList from "./PostCommentList";
 import PostAction from "./PostAction";
 
 function PostCard({ post }) {
+  console.log("poster", post);
   return (
     <article className="card mt-6 lg:mt-8">
       {/* Header */}
